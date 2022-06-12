@@ -1,0 +1,24 @@
+import pigpio, time
+from Files.servo import Servo
+from Files.sonic import Sonic
+
+pi = pigpio.pi()
+
+servoMotor = Servo(name = 'Test', gpio_list = [14], pi)
+sensor = Sonic(name = 'Test2', trig = 2, echo = 3, pi)
+
+servoMotor.rotate(0)
+time.sleep(1)
+try:
+    while True:
+        for i in range(181):
+            servoMotor.rotate(angleR = i)
+            time.sleep(0.01)
+            print(i, sensor.distance())
+        for i in range(181):
+            servoMtor.rotate(angleR = 180 - i)
+            time.sleep(0.01)
+            print((180 - i), sensor.distance())
+
+except KeyboardInterrupt:
+    pi.stop()
